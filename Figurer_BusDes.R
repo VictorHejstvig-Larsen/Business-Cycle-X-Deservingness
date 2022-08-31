@@ -213,15 +213,17 @@ groupall %>%
   mutate(coef.names=as.factor(coef.names))
 
 ##### Det endelige plot %>% 
+groupall$legend <- c("95% ci")
 groupall %>% 
   ggplot(aes(antal, 
              ymin= ci.lo,
              y=point,
-             ymax=ci.hi)) +
-  geom_point(size= 2) +
+             ymax=ci.hi, fill=legend)) +
+  geom_point(size= 2, color="black") +
   scale_y_continuous(breaks=c(-0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6)) +
-  geom_linerange(size=0.5, color="gray", alpha=0.5) +
+  geom_linerange(size=0.3, color="black", alpha=1) +
   geom_hline(linetype='dashed', yintercept=0) +
+  geom_segment(aes(x=8.5, y=-0.1, xend=6, yend=-0.1))+
   theme(axis.text.y   = element_text(size=10),
         axis.text.x   = element_text(size=10),
         axis.title.y  = element_text(size=14),
@@ -231,14 +233,22 @@ groupall %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.line = element_line(colour = "black"),
-        panel.border = element_rect(colour = "black", fill=NA, size=0.6))+
+        panel.border = element_rect(colour = "black", fill=NA, size=0.6),
+        legend.position=c(0.85,0.14),
+        legend.box=NULL,
+        legend.key.size=unit(0.0, 'cm'),
+        legend.title=element_blank(),
+        legend.key = element_rect(fill="white", color="white")
+        )+
   scale_x_reverse(breaks=c(24,21,18,15,12,9,6,3))+
   labs(title="Figur 3: Ændring i sandsynligheden for
  generøs policy tæt på valg
- for deserving grupper", x="måneder til valg", y="")
+ for deserving grupper", x="måneder til valg", y="")+
+  guides(fill = guide_legend(override.aes = list(size=0, color="white")))
 
 
-######Figur over P-værdier
+
+  ######Figur over P-værdier
 pval<- c(0.75, 0.8685, 0.916, 0.8043, 0.2811, 0.0404, 0.096, 0.0528)
 tid  <-c(24, 21, 18, 15, 12, 9, 6, 3)
 
@@ -285,10 +295,8 @@ databcd %>%
                                               "Sundhed"))) %>% 
   ggplot(aes(modtager, prop, fill=policy))+
   geom_bar (stat='identity', position="fill", alpha=1)+  
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank()) +
   coord_flip()+
-  theme(axis.text.y   = element_text(size=8),
+  theme(axis.text.y   = element_text(size=8,face="bold"),
         axis.text.x   = element_text(size=8),
         axis.title.y  = element_text(size=14),
         axis.title.x  = element_text(size=12),
@@ -348,14 +356,16 @@ databcd %>%
 #scale_fill_manual(values=c("grey40", "grey80"), breaks=c("Generøs", "Restriktiv"),
                # name="Policy")
 ##### Model over dage til valg og sandsynlighed for generøs policy # 
-
+databcd$ldeserving[databcd$ddeserving==1] <- "Deserving"
+databcd$ldeserving[databcd$ddeserving==0] <- "Undeserving"
+  
 databcd %>% 
-  ggplot(aes(dtelection, Expansion))+
+  ggplot(aes(dtelection, Expansion, 
+             group=ldeserving,
+             linetype=as.factor(ldeserving)))+
   geom_point(alpha=0)+
   scale_x_reverse()+
   scale_y_continuous(breaks=seq(0,1,0.1))+
-  geom_hline(linetype='dashed', yintercept=0.5)+
-  geom_hline(linetype='dashed', yintercept=0.65)+
   geom_smooth(se=F, color="black", size=1)+
   theme(axis.text.y   = element_text(size=10),
         axis.text.x   = element_text(size=10),
@@ -366,13 +376,17 @@ databcd %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.line = element_line(colour = "black"),
-        panel.border = element_rect(colour = "black", fill=NA, size=0.6))+
+        panel.border = element_rect(colour = "black", fill=NA, size=0.6,),
+        legend.position=c(0.8,0.22),
+        legend.box=NULL,
+        legend.title=element_blank(),
+        legend.key = element_rect(fill="white", color="white"))+
   labs(title="FigurX: Sammenhæng mellem
 sandsynlighed for generøs policy
 og antal dage til valg",
        x="Dage til valg", y=NULL)
 
-##Regressionstabel
+  ##Regressionstabel
 stargazer (m24, m21, m18, m15, m12, m9, m6, m3,
            align=T, type="text",
            out="star.html")
