@@ -3,7 +3,7 @@ pack<-c("car","sandwich","lmtest","RColorBrewer","mgcv","foreign","xtable"
         "pathwork","ggplot2", "forcats", "rio", "Cairo", "ggpubr", "ggExtra")
 lapply(pack, require, character.only=T)
 
-setwd("C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness")
+setwd("")
 databcd<-import("databcd.dta")
 
 
@@ -218,7 +218,7 @@ groupall %>%
 
 ##### Det endelige plot %>% 
 CairoWin()
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur3.png",
+png(file="",
     height=15, width=25, units="cm", res=300) 
 
 groupall$legend <- c("95% konfidensinterval")
@@ -259,7 +259,7 @@ fig3
 dev.off()
 
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur3bars.png",
+png(file="",
     height=3, width=25, units="cm", res=300) 
 ggplot(groupall, aes(x = antal, y=observations_treatment)) + 
   geom_bar(stat="identity", width=0.8, color="black", fill="#0E86D4", alpha=0.6) + 
@@ -270,7 +270,7 @@ ggplot(groupall, aes(x = antal, y=observations_treatment)) +
 
 dev.off()
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur3bars2.png",
+png(file="",
     height=3, width=25, units="cm", res=300) 
 ggplot(groupall, aes(x = antal, y=observations_control)) + 
   geom_bar(stat="identity", width=0.8, color="black", fill="gray60", alpha=0.6) + 
@@ -308,7 +308,7 @@ datafig4 %>%
 
 #####Deskriptive plots
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur1.png",
+png(file="",
     height=15, width=25, units="cm", res=300)
 
 databcd %>% 
@@ -427,7 +427,7 @@ deserving_points$dtelection <- deserving_points$`round(dtelection/30)`*30
 
 # Merge the expansion_per_week data frame with the original databcd data frame based on the week column
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur2.png",
+png(file="",
     height=15, width=25, units="cm", res=300)  
 
 fig2 <- ggplot(data=databcd, 
@@ -487,7 +487,7 @@ fig2 <- ggplot(data=databcd,
   labs(title="",
        x="Dage til valg", y=NULL)
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur2marg.png",
+png(file="",
     height=15, width=25, units="cm", res=300)  
 
 ggMarginal(fig2, type="histogram", margins="x", groupColor=TRUE, groupFill=TRUE,
@@ -735,7 +735,7 @@ groupall %>%
 
 ##### Det endelige plot %>% 
 
-png(file="C:/Users/45533/OneDrive - Aarhus universitet/Statskundskab/Business cycle + deservingness/R scripts/Plots/figur3.png",
+png(file="",
     height=15, width=25, units="cm", res=300) 
 
 groupall$legend <- c("95% ci")
